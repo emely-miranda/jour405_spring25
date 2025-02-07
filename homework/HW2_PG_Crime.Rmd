@@ -46,16 +46,16 @@ The highest average number of incidents is "accident" with an average of 481.33 
 One theory about crime is that it is more likely to occur in the summer months. Test this theory by creating three new columns using `mutate()` that calculate the percentage change compared to the average for each category of crime for the months of June, July, and August. Call the new columns `june_change`, `july_change`, and `august_change`. Assign the result to a new dataframe called `summer_crime_averages`.
 
 ```{r}
-june_pct_change <- pg_crime_average |> mutate(june_change = (Jun-May)/May*100)
-july_pct_change <- june_pct_change |> mutate(july_change = (Jul-Jun)/Jun*100) 
-summer_crime_averages <- july_pct_change |> mutate(august_change = (Aug-Jul)/Jul*100)
+june_pct_change <- pg_crime_average |> mutate(june_change = (Jun-average)/average*100)
+july_pct_change <- june_pct_change |> mutate(july_change = (Jul-average)/average*100) 
+summer_crime_averages <- july_pct_change |> mutate(august_change = (Aug-average)/average*100)
 ```
 
 ### Task 7: Describe the Summer Crime Averages
 
 Look at the `summer_crime_averages` dataframe by clicking on it in the Environment tab in RStudio. Write a couple of sentences describing the percentage change in the average number of incidents per month for each category of crime for the months of June, July, and August. Do you see any patterns? What does this tell you about the theory that crime is more likely to occur in the summer months?
 
-The data shows a lot of decrease in crime during the summer in general, but in the summer the month with the highest increase rate and lowest decrease rate is June. It has higher rates in seven incidents. Of the three summer months, July was second with high rates in six incidents. August came third with high rates in five incidents. Something worth noting is that data showed no change from May to June in "auto stolen and recovered", "B&E commercial" and "robbery vehicle"; from June to July in "robbery residential"; and from July to August in "assault shooting", "homicide" and "robbery residential". A pattern I see is that the larger jumps of crime have been from May to June with up to a 75% increase in "assault with weapon" and incidents doubling in "robbery other" and "robbery residential".
+The data shows a lot of decrease in crime during the summer in general, but in the summer the month with the highest increase rate and lowest decrease rate is June. It has higher rates in seven incidents. Of the three summer months, July was second with high increase/low decrease rates in six incidents. August came third with high increase/low decrease in five incidents. A pattern I noticed is that the largest percent changes that showed an increase in crime occurred in July, specifically in "assault shooting", "assault weapon", "auto stolen & recovered", "robbery vehicle", "sex offense" and "theft from auto". This can mean that some violent crimes and incidents involving cars are more likely to occur in July than the other summer months.
 
 ### Task 8: What's the Story?
 
