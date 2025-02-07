@@ -23,7 +23,9 @@ pg_crime <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/hea
 
 You should examine that dataframe carefully by clicking on it in the Environment tab in RStudio. Write a couple of sentences describing the categories of incidents. From a reporting standpoint, are any of the categories more important than others? Why or why not? Do any of them make the job of summarizing the data more difficult? Why or why not?
 
-There are many categories, with some being more specific than others depending on the type of incident that occurred. I would say the most important categories are "theft from auto" and "stolen vehicles" because these are the two crimes with the highest incidents, excluding "accident," which I believe refers to a car accident and is not necessarily a crime. The "accident with impound" category also has high number of incidents. I do not think it will be difficult to summarize the data. In general, the data is pretty straightforward, especially because the categories are specific with multiple of the same ones with just different circumstances. The only parts that might cause an issue is that some categories say "other" which can mean multiple things and residential robberies missing data for 2 months. Also some categories might overlap.
+There are many categories, with some being more specific than others depending on the type of incident that occurred. I would say the most important categories are "theft from auto" and "stolen vehicles" because these are the two crimes with the highest incidents, excluding "accident," which I believe refers to a car accident and is not necessarily a crime. The "accident with impound" category also has high number of incidents. 
+
+I do not think it will be difficult to summarize the data. In general, the data is pretty straightforward, especially because the categories are specific with multiple of the same ones with just different circumstances. The only parts that might cause an issue is that some categories say "other" which can mean multiple things and residential robberies missing data for 2 months. Also some categories might overlap.
 
 ### Task 4: Calculating Averages
 
@@ -55,7 +57,9 @@ summer_crime_averages <- july_pct_change |> mutate(august_change = (Aug-average)
 
 Look at the `summer_crime_averages` dataframe by clicking on it in the Environment tab in RStudio. Write a couple of sentences describing the percentage change in the average number of incidents per month for each category of crime for the months of June, July, and August. Do you see any patterns? What does this tell you about the theory that crime is more likely to occur in the summer months?
 
-The data shows a lot of decrease in crime during the summer in general, but in the summer the month with the highest increase rate and lowest decrease rate is June. It has higher rates in seven incidents. Of the three summer months, July was second with high increase/low decrease rates in six incidents. August came third with high increase/low decrease in five incidents. A pattern I noticed is that the largest percent changes that showed an increase in crime occurred in July, specifically in "assault shooting", "assault weapon", "auto stolen & recovered", "robbery vehicle", "sex offense" and "theft from auto". This can mean that some violent crimes and incidents involving cars are more likely to occur in July than the other summer months.
+The data shows a lot of decrease in crime during the summer in general, but in the summer the month with the highest increase rate and lowest decrease rate is June. It has higher rates in seven incidents. Of the three summer months, July was second with high increase/low decrease rates in six incidents. August came third with high increase/low decrease in five incidents. 
+
+A pattern I noticed is that the largest percent changes that showed an increase in crime occurred in July, specifically in "assault shooting", "assault weapon", "auto stolen & recovered", "robbery vehicle", "sex offense" and "theft from auto". This can mean that some violent crimes and incidents involving cars are more likely to occur in July than the other summer months.
 
 ### Task 8: What's the Story?
 
