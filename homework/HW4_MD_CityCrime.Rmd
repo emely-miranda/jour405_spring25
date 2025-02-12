@@ -9,6 +9,8 @@ In this assignment, we will be working with a dataset of total crimes reported b
 You will need to load the tidyverse library and the janitor library
 
 ```{r}
+library(tidyverse)
+library(janitor)
 ```
 
 Then you'll load the data from the web. The URL for the data is: https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/md_cities_crime_2019_2020.csv. You will create a dataframe called `md_cities` that contains the data from this URL.
@@ -16,19 +18,21 @@ Then you'll load the data from the web. The URL for the data is: https://raw.git
 ### Task 2: Load the Data
 
 ```{r}
+md_cities <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/md_cities_crime_2019_2020.csv")
 ```
 ### Task 3: Calculating Rates
 
 Calculate violent and property crime rates for each city for both years using `mutate()`. You'll create four new columns: `violent_rate_2019`, `property_rate_2019`, `violent_rate_2020`, and `property_rate_2020`. You'll need to figure out the proper unit rate, given that there are varying populations. There's no perfect choice; choose the one that works best for you. Save the results to a new dataframe called `md_cities_rates`.
 
 ```{r}
+md_cities_rates <- md_cities |> mutate(violent_rate_2019 = violent2019/pop2019 * 10000, property_rate_2019 = property2019/pop2019 * 10000, violent_rate_2020 = violent2020/pop2020 * 10000, property_rate_2020 = property2020/pop2020 * 10000)
 ```
 
 ### Task 4: Describe the Rates
 
 Examine the new dataframe, `md_cities_rates`, by clicking on it in the Environment tab in RStudio and sorting by the rate columns. Write a couple of sentences about the results, comparing and contrasting the cities with the highest rates (both violent and property) in 2019 and 2020. Do you see any patterns? What does this tell you about crime in Maryland cities? What's the story here?
 
-ANSWER HERE
+One thing I noticed, is that, for the most part, property crimes have higher rates than violent crimes. There are some cities, with 0 crime rates in both categories for both 2019 and 2020, but there are many cities listed in the data that have 0 violent crime rates and higher property crime rates. The data shows that property crimes are more likely to occur than violent crimes.
 
 
 ### Task 5: Calculate Percentage Change
@@ -36,19 +40,27 @@ ANSWER HERE
 Let's add two percentage change columns to your dataframe: one for violent crime rates and one for property crime rates. You'll calculate the percentage change between 2019 and 2020 for each city. Save the results to a new dataframe called `md_cities_change`.
 
 ```{r}
+md_cities_change <- md_cities_rates |> mutate(violent_pct_change = (violent_rate_2020 - violent_rate_2019) / violent_rate_2019*100, property_pct_change = (property_rate_2020 - property_rate_2019)/property_rate_2019*100)
 ```
 
 ### Task 7: Describe Percentage Changes
 
 Look at the `md_cities_change` dataframe by clicking on it in the Environment tab in RStudio. Write a couple of sentences describing the percentage change results. What's more interesting here, the patterns or the outliers? What's the story in the data?
 
-ANSWER HERE
+Between 2019 and 2020, some cities showcased 100% decrease in crime in either violent crime or property crime. One thing that stood out to me is that one city in Montgomery County showed a 100% decrease in both crimes--Friendship Heights. The largest percentage change in violent crimes was in Prince George's County in Edmonston--about 895%. The largest percentage change in property crimes was in Somerset County in Crisfield--about 320%. Something else interesting that stood out to me is that crime decreased in the two most populous cities listed in the data for both violent and property crimes, Baltimore City and Frederick.
 
 ### Task 8: Tell the Best Story
 
 Write up a lede and nutgraf of a story with the _best_ story idea you've found in this assignment. The lede should be a single sentence that summarizes the most important information in the data. The nutgraf should be a paragraph that provides more context and explains why the data is important.
 
-ANSWER HERE
+```{r}
+population_change <- md_cities |> mutate(pop_change = (pop2020-pop2019)/pop2019 * 100)
+```
+
+
+Crime in Baltimore City decreased during the pandemic.
+
+The pandemic took the world by storm when everything shut down. Like everyone else, the people of Baltimore City stayed indoors to quarantine and limited their contact with others. It may be a coincidence, but in 2020 Baltimore City experienced a nearly 13% decrease in violent crimes and nearly 30% decrease in property crimes compared to 2019. However, these crime rates are not the only things that declined, Baltimore City's population also decreased, dropping from around 605,000 to around 590,000 people. This raises the question: was the decline in crime a result of the pandemic, or were there other factors that contributed to this decrease?
 
 ### Task 9: Save Your Work and Put it on GitHub
 
