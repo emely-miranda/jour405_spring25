@@ -65,3 +65,24 @@ The pandemic took the world by storm when everything shut down. Like everyone el
 ### Task 9: Save Your Work and Put it on GitHub
 
 Save this notebook, then commit it to your local repository. Push the changes to your GitHub repository and submit the URL for this file in ELMS.
+
+### Task 10: HW5: Percentiles
+
+Using the 2020 violent crime rate, calculate the percentiles using `ntile()`. Save the results to a new dataframe called `md_cities_percentiles`. How many cities are above the 90th percentile?
+
+```{r}
+md_cities_percentiles <- md_cities_rates |> mutate(percentile = ntile(violent_rate_2020, 100))
+
+md_cities_rates |> mutate(percentile = ntile(violent_rate_2019, 100))
+```
+Answer: There are 11 cities in and above the 90th percentile. 
+
+Calculate the Interquartile Range of the 2020 violent crime rate using `summarize()` and R's `IQR()` function. The syntax is similar to how `mean()` works.
+
+```{r}
+md_cities_percentiles |> summarize(iqr_violent_2020 = IQR(violent_rate_2020))
+```
+
+Do the results change your best story idea from the previous assignment? Why or why not?
+
+I wouldn't say it changed my story idea, because when you look at Baltimore's 2019 violent crime rate and compare it to 2020, you can see that Baltimore dropped from being in the 100th percentil to the 99th percentile. Granted, it's still a high number, but it is still a decrease.
