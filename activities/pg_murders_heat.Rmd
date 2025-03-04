@@ -1,0 +1,56 @@
+---
+title: "PG Murders and Heat"
+---
+
+Remember how we talked about people killing each other more when it's hot outside? Let's explore that relationship using homicide and temperature data from Prince George's County. You'll load the data, perform some basic statistical analysis, and create a scatterplot to explore the relationship. Follow the steps below to complete the assignment.
+
+### Task 1: Load the tidyverse
+
+```{r}
+library(tidyverse)
+```
+
+
+### Task 2: Load the dataset from [https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/pg_murder_temps.csv](https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/pg_murder_temps.csv)
+
+```{r}
+hot_murders <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/pg_murder_temps.csv")
+```
+
+
+### Task 3: Use `summarize()` and the `cor()` function to calculate the correlation between murders and temperature, using the pearson method.
+
+```{r}
+hot_murders |> summarize(correlation = cor(murders, temperature, method = "pearson"))
+```
+
+
+### Task 4: Create a scatterplot of murders and temperature, using `geom_point()`. Your aes() will have temperatures on the x axis, murders on the y axis and add a label for the month (so label=month inside the aes()).
+
+```{r}
+
+hot_murders |> 
+  ggplot() +
+  geom_point(aes(x = temperature, y = murders)) +
+  geom_smooth(aes(x = temperature, y = murders), method = "lm")
+  
+
+```
+
+
+### Task 5: Add labels to the scatterplot using geom_text(). Inside geom_text() put the same aes() as geom_point in Task 4, then after the aes() add size = 5.
+
+```{r}
+hot_murders |> 
+  ggplot() +
+  geom_point(aes(x = temperature, y = murders)) +
+  geom_smooth(aes(x = temperature, y = murders), method = "lm") + 
+  geom_text(aes(x = temperature, y = murders, label = month))
+```
+
+
+### Task 6: Describe the results of both the correlation calculation and the scatterplot.
+
+The data shows that there is a positive correlation between temperature and murders. The calculation shows a .58 correlation, which is pretty positive, but it is not a perfect correlation. 
+
+When you are done, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
