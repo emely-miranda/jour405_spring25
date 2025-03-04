@@ -45,7 +45,7 @@ hot_murders |>
   ggplot() +
   geom_point(aes(x = temperature, y = murders)) +
   geom_smooth(aes(x = temperature, y = murders), method = "lm") + 
-  geom_text(aes(x = temperature, y = murders, label = month))
+  geom_text(aes(x = temperature, y = murders, label = month, size = 5))
 ```
 
 
