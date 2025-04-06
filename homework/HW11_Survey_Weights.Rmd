@@ -226,12 +226,21 @@ Based on your analysis of weighted and unweighted results by education level, wr
 2. How weighting affected your understanding of this relationship
 3. What this means for interpreting polling results in news reporting
 
-YOUR ANSWER HERE
+In the unweighted data, college-educated people looked much more likely to vote, while those with less education seemed less involved. However, after applying weights to better reflect the actual population, the gap between education levels became smaller. This likely means that the unweighted results may have led to some overrepresentation.
+
+The shift in numbers after weighting shows that survey results can be misleading. Weighting helps fix imbalances, making it more accurate, which is why it is important to do so, so you don't mislead the audience or leave out those underrepresented by the survey.
 
 ## Task 12: Final Reflection Questions
 
 1. Why is it important for journalists to understand survey weighting when reporting on polls?
 
+Like I answered in the previous question, it is important to understand survey weighting so that you can help readers understand it as well and to make sure you accurately reporting results.
+
 2. How might the differences between weighted and unweighted results affect how you would report on this data?
 
+In my report, I’d emphasize that weighted data is more accurate because it corrects for over- or under-represented groups. This helps avoid misleading conclusions and ensures the survey results reflect the whole population. If I only used unweighted results, I might not show a balanced or accurate view of the population.
+
 3. What additional information would you want to know about how the weights were calculated before using this data in a news story?
+
+I would want to know how they conducted the poll and how were the weights adjusted or what they were based on.
+
