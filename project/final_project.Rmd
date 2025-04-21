@@ -1,0 +1,22 @@
+---
+title: "final_project"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+```
+```{r}
+usm_hispanic_enrollment <- read_csv("https://raw.githubusercontent.com/emely-miranda/jour405_spring25/refs/heads/final_project/USM_LATINX_ENROLLMENT.csv")
+```
+
+##NOTES:
+The table shows the enrollment of Hispanic students across the USM between Fall 2015 and Fall 2024. The data only accounts for fall semester enrollment and not spring.
+
+The most important rows will likely be FA_15 and FA_24, because that will showcase the differences in the number of students enrolling in the colleges.
+
+As I'm looking at the data though, the starting and end points are not far off. If it was a chart/graph, I think there would be flunctuations, but at first glance the data seems constant.
+
+I was wondering if it might be worth exploring the gender aspect of it, but I'm not sure how exactly I would go about that. Are male Hispanic enrollments going down while female Hispanic enrollment goes up, or vice versa. Or are they correlated and both follow the same trend? I would have to make a new table but the data comes from the same place so it will be easy to get. (This idea just came to me so I'm kind of just spitballing here.)
+
+
