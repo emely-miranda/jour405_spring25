@@ -3,13 +3,28 @@ title: "final_project"
 output: html_document
 ---
 
+4/26/2025
+
 ```{r}
 library(tidyverse)
 ```
-```{r}
-usm_hispanic_enrollment <- read_csv("https://raw.githubusercontent.com/emely-miranda/jour405_spring25/refs/heads/final_project/USM_LATINX_ENROLLMENT.csv")
-```
 
+```{r}
+usm_hispanic_by_gender <- read_csv("https://raw.githubusercontent.com/emely-miranda/jour405_spring25/refs/heads/main/project/USM_HISPANIC_ENROLLMENT_GENDER.csv")
+```
+One kind of test I could run using this data on male and female hispanic enrollment from 2015-2024 is measuring the rate of change and if on average, male or female enrollment is growing faster.
+
+I think another test I could run a pearson correlation test to determine whether or not male and female enrollments are moving together. 
+
+```{r}
+usm_hispanic_enrollment <- read_csv("https://raw.githubusercontent.com/emely-miranda/jour405_spring25/refs/heads/main/project/USM_HISPANIC_ENROLLMENT.csv")
+```
+Also, I'm not sure if this is what you meant by longer data but I think I did it right...
+
+With this data I could run similar tests to the above data, such as measuring the rate of enrollment to see if the enrollment of Hispanic students is decreasing or increasing in the different universities.
+
+-----
+Prev. assignment
 ##NOTES:
 The table shows the enrollment of Hispanic students across the USM between Fall 2015 and Fall 2024. The data only accounts for fall semester enrollment and not spring.
 
