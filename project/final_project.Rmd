@@ -3,6 +3,52 @@ title: "final_project"
 output: html_document
 ---
 
+5/3/2025
+
+USM HISPANIC ENROLLMENT:
+```{r}
+usm_hispanic_enrollment |>
+  group_by(year) |>
+  summarize(total = sum(enrollment)) |>
+  ggplot(aes(x = year, y = total)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x= "Academic Semester", y = "Enrollment", title = "USM Enrollment of Hispanic Students")
+```
+The points on the graph show that each fall semester, the enrollment of Hispanic students across the USM has been increasing, with the exception of FA21, where it decreased from FA20. As usual, this is likely due to the pandemic, however it wasn't that big of decrease. Overall, total enrollment appears to have nearly doubled since FA15, when it was below 12,000, compared to FA24, when it is nearly at 20,000.
+
+```{r}
+yearly_totals <- usm_hispanic_enrollment |>
+  group_by(year) |>
+  summarize(total = sum(enrollment))
+
+model = lm(total ~ year, data = yearly_totals)
+summary(model)
+```
+The model wouldn't run because [according to Google], yearly_totals is a dataset that doesn't exist. I added the first part of the previous code to this code block and it seemed to work. But now the model isn't showing me anything, which, according to Google, is because the years aren't numeric, so I need to fix that. 
+
+I went back to previous homeworks because I remember we did something similar to make values numeric with $, but I can't figure it out. The website GeeksforGeeks is telling me to use as.numeric syntax, however, I don't know how to apply it in the code.
+
+
+USM HISPANIC ENROLLMENT BY GENDER:
+```{r}
+usm_hispanic_by_gender |> summarize(correlation = cor(Male, Female, method = "pearson"))
+```
+```{r}
+usm_hispanic_by_gender |> 
+  ggplot() + 
+  geom_point(aes(x=Male, y = Female)) +
+    geom_smooth(aes(x = Male, y = Female), method = "lm", color = "seagreen") +
+  labs(title = "USM Male and Female Hispanic Enrollment")
+```
+No errors with this. Made a scatterplot for fun, but the data and chart show that there is a strong correlation between male and female enrollment. The calculation gave us .967, which is not a perfect correlation but is still very strong. The scatterplot shows this with the line showcasing a positive correlation.
+
+```{r}
+usm_hispanic_by_gender |> mutate(male_rate = ("Current Year" - "Prev. Year"/"Prev. Year"))
+```
+I've tried a couple of things to get the rate change from the previous year's male enrollment but I'm clearly not doing it right. The formula I know is right, but I'm not sure how to do it in R.
+
+---
 4/26/2025
 
 ```{r}
