@@ -29,11 +29,11 @@ yearly_totals |>
   labs(x= "Academic Semester", y = "Enrollment", title = "USM Enrollment of Hispanic Students")
 ```
 
+
 ```{r}
 model = lm(total ~ numeric_year, data = yearly_totals)
 summary(model)
 ```
-
 
 
 USM HISPANIC ENROLLMENT BY GENDER:
@@ -78,4 +78,15 @@ summary (male_model)
 female_model <- lm(Female ~ numeric_year, data = usm_hispanic_by_gender)
 summary (female_model)
 ```
-##ANOVA TEST COMING SOON
+
+```{r}
+institution_enrollment <- usm_hispanic_enrollment |>
+  mutate(numeric_year = as.numeric(substr(year, 3, 4)) + 2000) |> 
+  arrange(school, numeric_year) |> 
+  group_by(school) |> 
+  mutate(pct_change = (enrollment - lag(enrollment)) / lag(enrollment) * 100)
+
+anova_result <- aov(pct_change ~ school, data = institution_enrollment)
+summary(anova_result)
+```
+
