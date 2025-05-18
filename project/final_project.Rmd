@@ -7,15 +7,14 @@ output: html_document
 library(tidyverse)
 ```
 
-```{r}
-usm_hispanic_by_gender <- read_csv("https://raw.githubusercontent.com/emely-miranda/jour405_spring25/refs/heads/main/project/USM_HISPANIC_ENROLLMENT_GENDER.csv")
-```
+#Hispanic enrollment across the USM:
 
+This dataset shows the number of Hispanic students enrolled at each USM university during the Fall semesters of 2015-2024.
 ```{r}
 usm_hispanic_enrollment <- read_csv("https://raw.githubusercontent.com/emely-miranda/jour405_spring25/refs/heads/main/project/USM_HISPANIC_ENROLLMENT.csv")
 ```
-##How do I get each year, 2015-2023, to appear on the x-axis?
-USM HISPANIC ENROLLMENT:
+##Linear regression model, line & percent increase
+This code summarizes yearly Hispanic enrollment at USM and visualizes the data points along with a line. A linear regression line is added to model the overall trend in enrollment over time. The purpose of using linear regression here is to show the general direction and strength of the relationship between the academic years and Hispanic student enrollment, helping us measure how enrollment is changing and can predict future numbers.
 ```{r}
 yearly_totals <- usm_hispanic_enrollment |>
   group_by(year) |>
@@ -23,20 +22,56 @@ yearly_totals <- usm_hispanic_enrollment |>
   mutate(numeric_year = as.numeric(substr(year, 3, 4)) + 2000)
 
 yearly_totals |>
-  ggplot(aes(x = numeric_year, y = total)) +
+  ggplot(aes(x = factor(numeric_year), y = total)) +
   geom_point() +
-  geom_smooth(method = "lm", color = "seagreen") +
-  labs(x= "Academic Semester", y = "Enrollment", title = "USM Enrollment of Hispanic Students")
+  geom_smooth(method = "lm", color = "seagreen", aes(group = 1)) +
+  labs(x= "Academic Semester", y = "Enrollment", title = "USM Enrollment of Hispanic Students") +
+  scale_x_discrete(breaks = unique(yearly_totals$numeric_year))
 ```
-
-
+The purpose of this model is to understand the trend in Hispanic student enrollment at USM over time. The regression model indicates that total enrollment has been steadily increasing over the years. The p-value is less than .05, meaning it is statistically signficantly likely that enrollment increases over time.
 ```{r}
 model = lm(total ~ numeric_year, data = yearly_totals)
 summary(model)
 ```
+The linear regression line fits the data well, reinforcing that enrollment has been increasing at a steady rate over the years. The points on the graph show that each fall semester, the enrollment of Hispanic students across the USM has generally increased, with the exception of Fall 2021, where it decreased slightly from Fall 2020. (This small drop was likely due to the pandemic.) Nonetheless, it provides a useful approximation for long-term growth in Hispanic student enrollment across the USM.
 
+```{r}
+fa15_value <- 11845
+fa24_value <- 19705
 
-USM HISPANIC ENROLLMENT BY GENDER:
+percent_increase <- ((fa24_value - fa15_value)/fa15_value)*100
+```
+
+Overall, enrollment has grown substantially since Fall 2015, rising from just under 12,000 to nearly 20,000 in Fall 2024, which is an increase of about 66.36%.
+
+##ANOVA test
+
+An ANOVA test was used to compare the percent change in Hispanic student enrollment across the USM universities over time and see if it is statistically significant. The code calculated year-over-year percent changes for each institution and testing for variation between school averages.
+```{r}
+institution_enrollment <- usm_hispanic_enrollment |>
+  mutate(numeric_year = as.numeric(substr(year, 3, 4)) + 2000) |> 
+  arrange(school, numeric_year) |> 
+  group_by(school) |> 
+  mutate(pct_change = (enrollment - lag(enrollment)) / lag(enrollment) * 100) |> 
+  filter(!is.na(pct_change))
+
+anova_result <- aov(pct_change ~ school, data = institution_enrollment)
+summary(anova_result)
+```
+F value = 1.096
+p-value = 0.374
+
+Because of these two facts, the ANOVA test indiciate that the growth rates of Hispanic enrollment are not meaningfully different across schools. It is not statistically significant.
+
+#USM Hispanic enrollment by gender:
+
+This dataset shows the total number of Hispanic students by gender enrolled in the USM each Fall semesters of 2015-2024.
+```{r}
+usm_hispanic_by_gender <- read_csv("https://raw.githubusercontent.com/emely-miranda/jour405_spring25/refs/heads/main/project/USM_HISPANIC_ENROLLMENT_GENDER.csv")
+```
+##Correlation test
+
+This Pearson correlation test calculated the correlation between the number of male and female students enrolled each Fall semester.
 ```{r}
 usm_hispanic_by_gender |> summarize(correlation = cor(Male, Female, method = "pearson"))
 ```
@@ -47,7 +82,14 @@ usm_hispanic_by_gender |>
     geom_smooth(aes(x = Male, y = Female), method = "lm", color = "seagreen") +
   labs(title = "USM Male and Female Hispanic Enrollment")
 ```
+Pearson's correlation coefficient of .967 is very close to positive 1 which means there is a very strong positive relationship between male and female enrollments. The chart also shows this positive linear relationship that as male enrollment increases female enrollment tends to increase as well.
 
+#T-test
+
+First, the code calculates the percent change in enrollment each year for male and female students. Then, a t-test compares the growth rates and checks whether they are signficantly different across years.
+
+Null hypothesis: no difference in the average percent change in enrollment between gender
+Alternative hypothesis: there is a difference in the average percent change in enrollment between gender
 ```{r}
 usm_hispanic_by_gender <- usm_hispanic_by_gender |>
   arrange(Year) |>
@@ -65,7 +107,13 @@ t_test_result <- t.test (
 
 t_test_result
 ```
+p-value = .7901
 
+The p-value is greater than 0.05, which means we do not reject the null hypothesis. Therefore, the t-test concluded that there is no statistically significant difference in male and female average percent change of enrollment from 2015–2024.
+
+##Linear regression model
+
+Linear regression models were ran for male and female Hispanic student enrollments from 2015-2024.
 ```{r}
 usm_hispanic_by_gender <- usm_hispanic_by_gender |>
   group_by(Year) |>
@@ -78,15 +126,33 @@ summary (male_model)
 female_model <- lm(Female ~ numeric_year, data = usm_hispanic_by_gender)
 summary (female_model)
 ```
+Both models show  positive slopes that are statistically significant, indicating that enrollment increased each year for both genders. The slope for males is 386.84 and for females is 379.76, which are fairly close, suggesting comparable growth rates across genders. The R-squared values for both genders, .96 for females and .94 for males, indicated that over 94% of the variation in enrollment is explained by the year. The model also show very low p-values for both genders; the p-values and the R-squared valued with the demonstrate that the increase of enrollment over time is statistically significant.
 
 ```{r}
-institution_enrollment <- usm_hispanic_enrollment |>
-  mutate(numeric_year = as.numeric(substr(year, 3, 4)) + 2000) |> 
-  arrange(school, numeric_year) |> 
-  group_by(school) |> 
-  mutate(pct_change = (enrollment - lag(enrollment)) / lag(enrollment) * 100)
+usm_hispanic_by_gender <- usm_hispanic_by_gender |>
+  group_by(Year) |>
+  mutate(numeric_year = as.numeric(substr(Year, 3, 4)) + 2000) |>
+  ungroup()
 
-anova_result <- aov(pct_change ~ school, data = institution_enrollment)
-summary(anova_result)
+ggplot(usm_hispanic_by_gender) +
+  geom_point(aes(x = numeric_year, y = Male), color = "orange") +
+  geom_smooth(aes(x = numeric_year, y = Male), method = "lm", color = "orange", se = FALSE) +
+  geom_point(aes(x = numeric_year, y = Female), color = "plum") +
+  geom_smooth(aes(x = numeric_year, y = Female), method = "lm", color = "plum", se = FALSE) +
+  labs(
+    x = "Academic Year",
+    y = "Enrollment",
+    title = "USM Hispanic Enrollment by Gender Over Years"
+  )
 ```
+##Story Pitch
 
+From the multiple analyses and tests, the rate of Hispanic enrollment across the USM is increasing. The data showed clear upward trends in enrollment of Hispanic students and for both male and female Hispanic students from 2015-2024.
+
+The data showed similar growth in enrollment for both males and females and that the increase of enrollment for both genders are significantly correlated. No schools stand out as having much higher or lower Hispanic enrollment compared to others, according to the ANOVA test. Overall, the data and tests show progress in Hispanic enrollment, with growth happening evenly.
+
+This upward trend isn't surprising. It's expected that Hispanic enrollment would increase over time because of major demographic changes in the country and a stronger focus on diversity and inclusion in higher education. 
+
+Because of this, I think the real story might be found by looking at the enrollment rates of other ethnic/racial groups across the USM. It would be interesting to see if any of these groups are decreasing in enrollment or growing at a faster rate than others. It could also be worth exploring whether White/Caucasian enrollment is affected or changing in response to the growth of other groups.
+
+In terms of reporting the story, I would expand the analysis to include other demographic groups within the USM and look for outliers and if some groups are falling behind or growing faster than others. This would help uncover patterns of equity or inequality beyond the overall increase of Hispanic enrollment. 
